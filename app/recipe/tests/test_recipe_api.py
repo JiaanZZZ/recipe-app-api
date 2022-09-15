@@ -60,11 +60,7 @@ class PrivateRecipeApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='user4@example.com', password='test123')
-        self.user = get_user_model().objects.create_user(
-            'user4@example.com',
-            'testpass123',
-        )
+        self.user = create_user(email='user@example.com', password='test123')
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -108,7 +104,7 @@ class PrivateRecipeApiTests(TestCase):
         payload = {
             'title': 'Sample recipe',
             'time_minutes': 30,
-            'price': Decimal('5.99')
+            'price': Decimal('5.99'),
         }
 
         res = self.client.post(RECIPES_URL, payload)
@@ -125,7 +121,7 @@ class PrivateRecipeApiTests(TestCase):
         recipe = create_recipe(
             user=self.user,
             title='Sample recipe title',
-            link=original_link
+            link=original_link,
         )
 
         payload = {'title': 'New recipe title'}
@@ -186,7 +182,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code,status.HTTP_204_NO_CONTENT)
         self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
 
-    def test_recipe_others_users_recipe_error(self):
+    def test_recipe_other_users_recipe_error(self):
         """Test trying to delete another users recipe gives error."""
         new_user = create_user(email='user2@example.com',password='test123')
         recipe=create_recipe(user=new_user)
@@ -195,4 +191,4 @@ class PrivateRecipeApiTests(TestCase):
         res=self.client.delete(url)
 
         self.assertEqual(res.status_code,status.HTTP_404_NOT_FOUND)
-        self.assertEqual(Recipe.objects.filter(id=recipe.id).exists())
+        self.assertTrue(Recipe.objects.filter(id=recipe.id).exists())
