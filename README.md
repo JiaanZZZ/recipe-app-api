@@ -1,6 +1,4 @@
 # recipe-app-api
 recipe API project
 
-
-configure PostgreSQL sevice
-set Django database configuration
+Create an advanced REST API with Python, Django REST Framework and Docker using Test Driven Development (TDD)
