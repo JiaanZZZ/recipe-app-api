@@ -401,7 +401,7 @@ class PrivateRecipeApiTests(TestCase):
         r1 = create_recipe(user=self.user,title='Posh Beans on Toast')
         r2 = create_recipe(user=self.user, title='Chicken Cacciatore')
         in1 = Ingredient.objects.create(user=self.user,name='Feta Cheese')
-        in2 = Ingredient.objects.create(user=self.user,name = 'chicken')
+        in2 = Ingredient.objects.create(user=self.user,name = 'Chicken')
         r1.ingredients.add(in1)
         r1.ingredients.add(in2)
         r3 = create_recipe(user=self.user, title = 'Red Lentil Daal')
@@ -413,7 +413,7 @@ class PrivateRecipeApiTests(TestCase):
         s2 = RecipeSerializer(r2)
         s3 = RecipeSerializer(r3)
         self.assertIn(s1.data, res.data)
-        self.assertIn(s2.data.res.data)
+        self.assertIn(s2.data,res.data)
         self.assertIn(s3.data,res.data)
 
 
